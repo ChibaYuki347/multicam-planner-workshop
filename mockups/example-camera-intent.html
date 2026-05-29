@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<title>Mockup: カメラ別ショット意図カード — Multi-Camera Capture Planner</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --bg: #f7f7fb;
+    --panel: #ffffff;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --warn: #b45309;
+    --warn-bg: #fef3c7;
+    --stage: #e5e7eb;
+    --subject: #facc15;
+    --subject-ink: #92400e;
+    --camera: #2563eb;
+    --camera-selected: #ef4444;
+    --overhead: #10b981;
+    --fov: rgba(37, 99, 235, 0.18);
+    --fov-selected: rgba(239, 68, 68, 0.28);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", Roboto, "Hiragino Sans", "Yu Gothic UI", "Meiryo", sans-serif;
+    line-height: 1.5;
+  }
+  .mockup-badge {
+    display: inline-block;
+    background: var(--warn-bg);
+    color: var(--warn);
+    border: 1px solid var(--warn);
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 0.78rem;
+    margin-bottom: 8px;
+  }
+  header {
+    max-width: 960px;
+    margin: 0 auto 16px;
+  }
+  header h1 {
+    margin: 0 0 4px;
+    font-size: 1.4rem;
+  }
+  header p.sub {
+    margin: 0 0 12px;
+    color: var(--muted);
+  }
+  .meta {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 4px 12px;
+    background: var(--panel);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+  .meta dt { color: var(--muted); }
+  .meta dd { margin: 0; }
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+    gap: 16px;
+  }
+  .panel {
+    background: var(--panel);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .panel h2 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+  }
+  svg.stage-map {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .legend {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .legend span::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .legend .stage::before    { background: var(--stage); }
+  .legend .subject::before  { background: var(--subject); }
+  .legend .camera::before   { background: var(--camera); }
+  .legend .selected::before { background: var(--camera-selected); }
+  .legend .overhead::before { background: var(--overhead); }
+  .intent-card {
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 12px;
+  }
+  .intent-card h3 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+    color: var(--camera-selected);
+  }
+  .intent-card dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 4px 12px;
+    margin: 0;
+  }
+  .intent-card dt {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .intent-card dd {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+  .acceptance {
+    max-width: 960px;
+    margin: 16px auto 0;
+  }
+  .acceptance ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .acceptance li {
+    padding: 6px 0;
+    border-bottom: 1px dashed #e5e7eb;
+    font-size: 0.95rem;
+  }
+  .acceptance li::before {
+    content: "☐ ";
+    color: var(--accent);
+    margin-right: 6px;
+  }
+  footer {
+    max-width: 960px;
+    margin: 24px auto 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  @media (max-width: 720px) {
+    main { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="mockup-badge">これはモックアップであり、実装ではありません</span>
+  <h1>カメラ別ショット意図カード</h1>
+  <p class="sub">Multi-Camera Capture Planner — ビジネスユーザー合意用モック</p>
+  <dl class="meta">
+    <dt>想定ユーザー</dt><dd>撮影ディレクター、現場オペレーター</dd>
+    <dt>扱う範囲</dt>
+    <dd>カメラを 1 台選んだときに、担当被写体・想定構図・撮影意図を 1 枚のカードで確認できる</dd>
+    <dt>扱わない範囲</dt>
+    <dd>カメラ配置のドラッグ編集、3D ビュー、本物のカメラ制御、シーンの保存と読み込み</dd>
+    <dt>対応する仕様</dt>
+    <dd>『カメラ選択で撮影意図カードを表示する』(架空シナリオ)</dd>
+  </dl>
+</header>
+
+<main>
+  <section class="panel" aria-label="Stage top-down view">
+    <h2>上面図</h2>
+    <svg class="stage-map" viewBox="0 0 14 10" role="img" aria-label="ステージ上面図">
+      <rect x="0" y="0" width="14" height="10" fill="#fafafa" stroke="#e5e7eb" stroke-width="0.04" />
+
+      <!-- Stage -->
+      <rect x="2" y="1" width="10" height="4" fill="#e5e7eb" />
+      <text x="7" y="1.6" text-anchor="middle" font-size="0.7" fill="#6b7280">STAGE</text>
+
+      <!-- Overhead coverage -->
+      <circle cx="4" cy="6.5" r="3" fill="rgba(16,185,129,0.08)"
+              stroke="#10b981" stroke-dasharray="0.18 0.18" stroke-width="0.04" />
+      <circle cx="10" cy="6.5" r="3" fill="rgba(16,185,129,0.08)"
+              stroke="#10b981" stroke-dasharray="0.18 0.18" stroke-width="0.04" />
+      <rect x="3.75" y="6.25" width="0.5" height="0.5" fill="#10b981" />
+      <text x="4" y="7.35" text-anchor="middle" font-size="0.4" fill="#10b981">Overhead L</text>
+      <rect x="9.75" y="6.25" width="0.5" height="0.5" fill="#10b981" />
+      <text x="10" y="7.35" text-anchor="middle" font-size="0.4" fill="#10b981">Overhead R</text>
+
+      <!-- FOV cones -->
+      <polygon points="3,8 3.78,2.42 5.78,3.93"  fill="rgba(37,99,235,0.18)" stroke="#2563eb" stroke-width="0.04"/>
+      <!-- selected cam 2 -->
+      <polygon points="7,8.5 4.96,2.59 9.04,2.59" fill="rgba(239,68,68,0.28)" stroke="#ef4444" stroke-width="0.05"/>
+      <polygon points="11,8 8.22,3.93 10.22,2.42" fill="rgba(37,99,235,0.18)" stroke="#2563eb" stroke-width="0.04"/>
+
+      <!-- Cameras -->
+      <circle cx="3"  cy="8"   r="0.3" fill="#2563eb" />
+      <text x="3"  y="7.45" text-anchor="middle" font-size="0.45" fill="#1f2937">Cam 1</text>
+      <circle cx="7"  cy="8.5" r="0.32" fill="#ef4444" />
+      <text x="7"  y="7.95" text-anchor="middle" font-size="0.45" fill="#1f2937">Cam 2 (選択中)</text>
+      <circle cx="11" cy="8"   r="0.3" fill="#2563eb" />
+      <text x="11" y="7.45" text-anchor="middle" font-size="0.45" fill="#1f2937">Cam 3</text>
+
+      <!-- Subjects -->
+      <circle cx="4"  cy="3" r="0.4" fill="#facc15" stroke="#92400e" stroke-width="0.04" />
+      <text x="4"  y="3.05" text-anchor="middle" dominant-baseline="middle" font-size="0.45" fill="#92400e" font-weight="700">A</text>
+      <circle cx="7"  cy="3" r="0.4" fill="#facc15" stroke="#92400e" stroke-width="0.04" />
+      <text x="7"  y="3.05" text-anchor="middle" dominant-baseline="middle" font-size="0.45" fill="#92400e" font-weight="700">B</text>
+      <circle cx="10" cy="3" r="0.4" fill="#facc15" stroke="#92400e" stroke-width="0.04" />
+      <text x="10" y="3.05" text-anchor="middle" dominant-baseline="middle" font-size="0.45" fill="#92400e" font-weight="700">C</text>
+    </svg>
+    <p class="legend">
+      <span class="stage">ステージ</span>
+      <span class="subject">被写体 (A/B/C)</span>
+      <span class="camera">メインカメラ</span>
+      <span class="selected">選択中カメラ</span>
+      <span class="overhead">俯瞰カメラ (見守り範囲)</span>
+    </p>
+  </section>
+
+  <aside class="panel" aria-label="Selected camera intent">
+    <h2>撮影意図</h2>
+    <div class="intent-card">
+      <h3>Cam 2 — センター</h3>
+      <dl>
+        <dt>担当被写体</dt><dd>Performer B (センター)</dd>
+        <dt>想定構図</dt><dd>ミドルショット (バストアップ寄り)</dd>
+        <dt>画角</dt><dd>40°</dd>
+        <dt>カメラまでの距離</dt><dd>約 5.7 単位</dd>
+        <dt>撮影意図</dt><dd>センターの人物のミドルショット。MC が話している間の基本カット。</dd>
+        <dt>切替時の注意</dt><dd>Cam 1 / Cam 3 へ切り替えるときは、Performer B の発話の切れ目で切ること。</dd>
+      </dl>
+    </div>
+  </aside>
+</main>
+
+<section class="acceptance panel" aria-label="Acceptance criteria">
+  <h2>受け入れ条件 (仕様から転記)</h2>
+  <ul>
+    <li>上面図でカメラを 1 台選ぶと、選択中であることが視覚的に分かる (色 / 太さ / バッジ いずれか)。</li>
+    <li>選択中カメラの担当被写体・想定構図・画角・撮影意図が 1 枚のカードで読める。</li>
+    <li>俯瞰カメラの見守り範囲が、メインカメラと混同しない色で表示される。</li>
+    <li>カメラ選択を解除する手段が画面上に明示されている。</li>
+    <li>初見ユーザーが、説明なしで「Cam 2 はセンターを撮る」と理解できる。</li>
+  </ul>
+</section>
+
+<footer>
+  <p>
+    このファイルは <code>mockups/example-camera-intent.html</code> のサンプルです。粒度・スタイルの参考にしてください。新規モックを作成するときは <code>.github/prompts/sdd-mockup.prompt.md</code> もしくは <code>agents/mockup-builder.agent.md</code> を利用すると、本ファイルと同じ制約に沿った HTML が生成されます。
+  </p>
+</footer>
+
+</body>
+</html>
