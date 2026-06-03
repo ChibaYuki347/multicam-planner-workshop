@@ -8,7 +8,8 @@
 
 | ファイル | 内容 |
 |---|---|
-| `agenda.md` | 180 分タイムテーブルと進行台本 |
+| `agenda.md` | 180 分タイムテーブルと進行台本 (BYOK コンティンジェンシー含む) |
+| `byok-setup.md` | Microsoft Foundry (Azure OpenAI) BYOK バックアップの主催者向け運用ガイド |
 | `running-online.md` | オンライン / ハイブリッド開催時の運営注意 |
 
 ## 参加者と共有するもの
@@ -20,7 +21,10 @@
 - `../docs/01-theme.md`（題材）
 - `../docs/02-participant-prep.md`（事前準備）
 - `../docs/03-copilot-prompts.md`（当日使うプロンプト集）
+- `../docs/04-custom-prompts-and-agents.md`（スラッシュコマンド / カスタムエージェントの使い方）
+- `../docs/05-backup-byok.md`（Copilot クォータ枯渇時の BYOK 切替手順）
 - `../exercises/`（ワークシート群）
+- `../mockups/`（合意用 HTML モックアップ）
 
 ## 公開リポジトリにする場合の選択肢
 

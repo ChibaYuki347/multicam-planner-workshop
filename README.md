@@ -18,6 +18,7 @@ GitHub Copilot を使って **「要件 → ユーザーストーリー → 仕�
 | プロトタイプ雛形 | Next.js (App Router, TypeScript) ベースのスターター。上面図 SVG、カメラ選択 UI、モックデータ付き |
 | カスタムスキル | VS Code Copilot Chat / GitHub Copilot CLI 共通のカスタムエージェント、スラッシュコマンド、スコープ命令 (詳細: `docs/04-custom-prompts-and-agents.md`) |
 | 合意用モック | `mockups/` 配下の単一 HTML モックアップとサンプル |
+| BYOK バックアップ | Copilot クォータ枯渇に備えた Microsoft Foundry (Azure OpenAI) 切替手順とデプロイスクリプト (`docs/05-backup-byok.md` / `scripts/`) |
 
 ## ディレクトリ構成
 
@@ -29,10 +30,12 @@ GitHub Copilot を使って **「要件 → ユーザーストーリー → 仕�
 │   ├── 01-theme.md            # 題材の前提と用語
 │   ├── 02-participant-prep.md # 参加者の事前準備
 │   ├── 03-copilot-prompts.md  # 段階別 Copilot プロンプト集 (手動コピペ用)
-│   └── 04-custom-prompts-and-agents.md  # スラッシュコマンド / カスタムエージェントの使い方
+│   ├── 04-custom-prompts-and-agents.md  # スラッシュコマンド / カスタムエージェントの使い方
+│   └── 05-backup-byok.md      # Copilot クォータ枯渇時の BYOK 切替手順 (参加者向け)
 ├── facilitator/               # 主催者・進行担当のみが見るフォルダ
 │   ├── README.md              # 取扱方針
 │   ├── agenda.md              # 180分タイムテーブル / 進行台本
+│   ├── byok-setup.md          # BYOK バックアップ運用ガイド (主催者向け)
 │   └── running-online.md      # オンライン / ハイブリッド運営の注意
 ├── exercises/                 # 配布用ワークシート
 │   ├── 01-user-stories.md
@@ -43,6 +46,10 @@ GitHub Copilot を使って **「要件 → ユーザーストーリー → 仕�
 ├── mockups/                   # ビジネス合意用の単一 HTML モックアップ
 │   ├── README.md
 │   └── example-camera-intent.html
+├── scripts/                   # 主催者向け運用スクリプト (Azure OpenAI デプロイ / 撤収)
+│   ├── README.md
+│   ├── deploy-foundry-openai.sh
+│   └── teardown-foundry-openai.sh
 ├── prototype/                 # Next.js プロトタイプ雛形
 │   ├── README.md
 │   └── (app/, lib/, package.json ほか)
@@ -82,6 +89,8 @@ npm run dev
 
 参加者の事前準備は [`docs/02-participant-prep.md`](docs/02-participant-prep.md) を、
 カスタムスキル一覧と使い方は [`docs/04-custom-prompts-and-agents.md`](docs/04-custom-prompts-and-agents.md) を参照してください。
+
+ワークショップ中に GitHub Copilot のクォータが枯渇した場合のバックアップは [`docs/05-backup-byok.md`](docs/05-backup-byok.md) (参加者向け) と [`facilitator/byok-setup.md`](facilitator/byok-setup.md) (主催者向け) にまとめてあります。
 
 ## ライセンスと利用範囲
 
