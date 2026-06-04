@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<title>Opening Slide — Spec-Driven Development Workshop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --bg: #0f172a;
+    --bg-soft: #1e293b;
+    --panel: #ffffff;
+    --panel-soft: #f8fafc;
+    --ink: #0f172a;
+    --ink-soft: #334155;
+    --muted: #64748b;
+    --accent: #2563eb;
+    --accent-warm: #f59e0b;
+    --accent-green: #10b981;
+    --accent-rose: #ef4444;
+    --rule: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic UI", "Meiryo",
+      sans-serif;
+    line-height: 1.4;
+  }
+  .stage {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .slide {
+    width: min(100%, 1600px);
+    aspect-ratio: 16 / 9;
+    background: var(--panel);
+    border-radius: 18px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+    padding: 56px 64px;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 28px;
+    color: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .slide::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-green) 50%, var(--accent-warm) 100%);
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .topbar .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    background: var(--panel-soft);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+    text-transform: none;
+    font-weight: 500;
+  }
+  .topbar .badge .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .headline {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: end;
+  }
+  .headline h1 {
+    margin: 0;
+    font-size: 56px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .headline h1 .accent {
+    color: var(--accent);
+  }
+  .headline .meta {
+    text-align: right;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .headline .meta div + div {
+    margin-top: 4px;
+  }
+  .headline .meta b {
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .body {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 32px;
+    min-height: 0;
+  }
+  .goals {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 16px;
+    min-height: 0;
+  }
+  .section-title {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .goal-list {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .goal {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 14px;
+    align-items: start;
+    padding: 14px 16px;
+    background: var(--panel-soft);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+  }
+  .goal .num {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .goal:nth-child(2) .num { background: var(--accent-green); }
+  .goal:nth-child(3) .num { background: var(--accent-warm); }
+  .goal h3 {
+    margin: 0 0 4px;
+    font-size: 17px;
+  }
+  .goal p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+
+  .side {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: 18px;
+    min-height: 0;
+  }
+  .scope {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .scope .card {
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 12px 14px;
+    background: var(--panel-soft);
+  }
+  .scope .card .label {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .scope .card.do .label { color: var(--accent-green); }
+  .scope .card.dont .label { color: var(--accent-rose); }
+  .scope .card ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .scope .card li {
+    margin: 2px 0;
+  }
+  .roles {
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 12px 14px;
+    background: var(--panel-soft);
+  }
+  .roles .label {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .roles dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 14px;
+    font-size: 13px;
+  }
+  .roles dt {
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .roles dd {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .timeline {
+    border-top: 1px solid var(--rule);
+    padding-top: 18px;
+  }
+  .timeline .section-title {
+    margin: 0;
+  }
+  .timeline-track {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 6px;
+  }
+  .step {
+    border-radius: 8px;
+    padding: 8px 10px;
+    border: 1px solid var(--rule);
+    background: var(--panel-soft);
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 4px;
+    min-height: 64px;
+  }
+  .step .time {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .step .name {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    font-weight: 600;
+    line-height: 1.2;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  .step.highlight {
+    background: #eef4ff;
+    border-color: #c7d8ff;
+  }
+  .step.highlight .name { color: var(--accent); }
+  .step.break {
+    background: #fef9e7;
+    border-color: #fde68a;
+  }
+  .step.break .name { color: #b45309; }
+
+  .reminder {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    box-shadow: 0 4px 12px rgba(15,23,42,0.25);
+    white-space: nowrap;
+  }
+  .reminder .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent-warm);
+  }
+  .timeline-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 12px;
+  }
+
+  @media print {
+    html, body { background: white; }
+    .stage { padding: 0; height: auto; }
+    .slide { box-shadow: none; border-radius: 0; height: 100vh; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <section class="slide" aria-label="Opening slide">
+
+    <div class="topbar">
+      <span>Spec-Driven Development Workshop · 180 min</span>
+      <span class="badge"><span class="dot"></span>Opening</span>
+    </div>
+
+    <header class="headline">
+      <h1>
+        曖昧な要望を、3 時間で<br />
+        <span class="accent">「動くもの」</span>に。
+      </h1>
+      <div class="meta">
+        <div><b>題材</b> マルチカメラ撮影プランナー</div>
+        <div><b>進め方</b> 仕様 → 計画 → 実装 → レビュー</div>
+        <div><b>道具</b> GitHub Copilot · Next.js · 単一 HTML モック</div>
+      </div>
+    </header>
+
+    <div class="body">
+
+      <div class="goals">
+        <div class="section-title">今日のゴール</div>
+        <div class="goal-list">
+          <div class="goal">
+            <div class="num">1</div>
+            <div>
+              <h3>仕様を AI と作る</h3>
+              <p>業務側が日常の言葉で要望を出し、Copilot がユーザーストーリーと受け入れ条件に整形する流れを体験する。</p>
+            </div>
+          </div>
+          <div class="goal">
+            <div class="num">2</div>
+            <div>
+              <h3>レビューで品質を担保する</h3>
+              <p>仕様 → 計画 → 実装 → モックの 1 サイクルを回し、業務ロールが触ってフィードバックを返す。</p>
+            </div>
+          </div>
+          <div class="goal">
+            <div class="num">3</div>
+            <div>
+              <h3>複数人で AI コーディングを回す型を試す</h3>
+              <p>「考える人 / 実行する人 / レビューする人」を分けて、自分たちの現場に持ち帰れる進め方を持ち帰る。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="side">
+        <div class="scope">
+          <div class="card do">
+            <div class="label">今日は作る</div>
+            <ul>
+              <li>ユーザーストーリー</li>
+              <li>仕様 / 受け入れ条件</li>
+              <li>実装計画</li>
+              <li>動くフロント雛形</li>
+              <li>合意用モック</li>
+            </ul>
+          </div>
+          <div class="card dont">
+            <div class="label">今日は作らない</div>
+            <ul>
+              <li>本番 API 連携</li>
+              <li>認証 / CI/CD</li>
+              <li>3D ビュー</li>
+              <li>実機カメラ制御</li>
+              <li>「完成品」</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="roles">
+          <div class="label">役割を 1 つずつ持ちましょう</div>
+          <dl>
+            <dt>Navigator</dt>
+            <dd>画面共有 / Copilot 操作</dd>
+            <dt>Business Reviewer</dt>
+            <dd>ユーザー価値の視点</dd>
+            <dt>Dev Reviewer</dt>
+            <dd>仕様・実装の視点</dd>
+            <dt>Observer</dt>
+            <dd>学びを言語化</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline" aria-label="180 minute agenda">
+      <div class="timeline-head">
+        <div class="section-title">180 分の流れ</div>
+        <div class="reminder" aria-hidden="true">
+          <span class="dot"></span>
+          完成より、型を 1 周。
+        </div>
+      </div>
+      <div class="timeline-track">
+        <div class="step">
+          <div class="time">0:00 – 0:10</div>
+          <div class="name">オープニング</div>
+        </div>
+        <div class="step">
+          <div class="time">0:10 – 0:25</div>
+          <div class="name">題材共有</div>
+        </div>
+        <div class="step">
+          <div class="time">0:25 – 0:45</div>
+          <div class="name">既存ツール観察</div>
+        </div>
+        <div class="step highlight">
+          <div class="time">0:45 – 1:05</div>
+          <div class="name">ユーザーストーリー</div>
+        </div>
+        <div class="step highlight">
+          <div class="time">1:05 – 1:25</div>
+          <div class="name">Copilot で仕様化</div>
+        </div>
+        <div class="step break">
+          <div class="time">1:25 – 1:35</div>
+          <div class="name">休憩</div>
+        </div>
+        <div class="step highlight">
+          <div class="time">1:35 – 1:55</div>
+          <div class="name">実装計画化</div>
+        </div>
+        <div class="step highlight">
+          <div class="time">1:55 – 2:45</div>
+          <div class="name">実装 + レビュー</div>
+        </div>
+        <div class="step">
+          <div class="time">2:45 – 3:00</div>
+          <div class="name">まとめ</div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+</body>
+</html>

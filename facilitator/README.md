@@ -10,6 +10,7 @@
 |---|---|
 | `agenda.md` | 180 分タイムテーブルと進行台本 (BYOK コンティンジェンシー含む) |
 | `byok-setup.md` | Microsoft Foundry (Azure OpenAI) BYOK バックアップの主催者向け運用ガイド |
+| `opening-slide.html` | オープニング (0:00 - 0:10) で投影する 1 枚スライド (単一 HTML, 16:9) |
 | `running-online.md` | オンライン / ハイブリッド開催時の運営注意 |
 
 ## 参加者と共有するもの
