@@ -13,6 +13,8 @@
 | `opening-slide.html` | オープニング (0:00 - 0:10) で投影する 1 枚スライド (単一 HTML, 16:9) |
 | `running-online.md` | オンライン / ハイブリッド開催時の運営注意 |
 
+ファシリテーターも、ワークショップ実演中の最短ルートは `../docs/06-quickstart-flow.md` を見てください。
+
 ## 参加者と共有するもの
 
 参加者向けには次のフォルダ / ファイルを案内してください。
@@ -21,9 +23,10 @@
 - `../docs/00-overview.md`（ワークショップの全体像）
 - `../docs/01-theme.md`（題材）
 - `../docs/02-participant-prep.md`（事前準備）
-- `../docs/03-copilot-prompts.md`（当日使うプロンプト集）
-- `../docs/04-custom-prompts-and-agents.md`（スラッシュコマンド / カスタムエージェントの使い方）
+- `../docs/03-copilot-prompts.md`（手動コピペ用プロンプト原文 / 二次フォールバック）
+- `../docs/04-custom-prompts-and-agents.md`（カスタムスキル全体のリファレンス）
 - `../docs/05-backup-byok.md`（Copilot クォータ枯渇時の BYOK 切替手順）
+- `../docs/06-quickstart-flow.md`（最短ルート: sdd-guide で 1 文から仕様まで）
 - `../exercises/`（ワークシート群）
 - `../mockups/`（合意用 HTML モックアップ）
 

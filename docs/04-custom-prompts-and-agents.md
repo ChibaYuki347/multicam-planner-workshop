@@ -1,4 +1,8 @@
-# 04. カスタムプロンプトとカスタムエージェントの使い方
+# 04. カスタムプロンプトとカスタムエージェントの使い方 (リファレンス)
+
+> **このページは「全カスタムスキルの一覧と使い分け」です (リファレンス用途)。**
+> ワークショップで最初に使うのは **`sdd-guide` カスタムエージェント** です。導線は `docs/06-quickstart-flow.md` を先に読んでください。
+> ここでは個別のスラッシュコマンドや、`sdd-guide` 以外のエージェントを単発で使いたい場合の説明をしています。
 
 仕様駆動開発の各ステップを **半自動化** するための、プロンプト・カスタムエージェント・スコープ別命令を同梱しています。VS Code Copilot Chat と GitHub Copilot CLI のどちらからも使えます。
 
@@ -6,19 +10,20 @@
 
 | やりたいこと | 推奨スキル | 種別 |
 |---|---|---|
-| 曖昧な要望からユーザーストーリーを 3 本作る | `/sdd-user-story` | プロンプト |
-| ユーザーストーリーから仕様を作る | `/sdd-spec` | プロンプト |
-| 仕様から実装計画を作る | `/sdd-plan` | プロンプト |
-| 仕様から HTML モックアップを作る | `/sdd-mockup` | プロンプト |
-| ビジネスレビュアー視点でフィードバックする | `/sdd-business-review` | プロンプト |
-| 実装計画 1 件を Copilot 用作業指示にする | `/sdd-task` | プロンプト |
+| **困りごとを 1 文書いて、US → 仕様 → モック → 計画 まで会話 1 つで進める (最短)** | **`sdd-guide` カスタムエージェント** | カスタムエージェント |
+| 曖昧な要望からユーザーストーリーを 3 本作る (単発) | `/sdd-user-story` | プロンプト |
+| ユーザーストーリーから仕様を作る (単発) | `/sdd-spec` | プロンプト |
+| 仕様から実装計画を作る (単発) | `/sdd-plan` | プロンプト |
+| 仕様から HTML モックアップを作る (単発) | `/sdd-mockup` | プロンプト |
+| ビジネスレビュアー視点でフィードバックする (単発) | `/sdd-business-review` | プロンプト |
+| 実装計画 1 件を Copilot 用作業指示にする (単発) | `/sdd-task` | プロンプト |
 | 仕様化フェーズに集中して会話する | `spec-author` カスタムエージェント | カスタムエージェント |
 | 仕様 / モックを業務側目線でレビューする | `business-reviewer` カスタムエージェント | カスタムエージェント |
 | `prototype/` に最小差分で実装する | `prototype-builder` カスタムエージェント | カスタムエージェント |
 | `prototype/` を編集するときの追加規約 | `prototype.instructions.md` | スコープ命令 |
 | `mockups/` を作るときの追加規約 | `mockup.instructions.md` | スコープ命令 |
-| 仕様 → モック → セルフレビュー → 改訂を 1 周回す | `.github/agents/spec-loop.agent.md` | Copilot CLI カスタムエージェント |
-| 仕様 1 本からモックを 1 ファイル作る | `.github/agents/mockup-builder.agent.md` | Copilot CLI カスタムエージェント |
+| 仕様 → モック → セルフレビュー → 改訂を 1 周回す (CLI) | `.github/agents/spec-loop.agent.md` | Copilot CLI カスタムエージェント |
+| 仕様 1 本からモックを 1 ファイル作る (CLI) | `.github/agents/mockup-builder.agent.md` | Copilot CLI カスタムエージェント |
 
 ## VS Code Copilot Chat での使い方
 

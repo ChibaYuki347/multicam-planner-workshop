@@ -13,10 +13,11 @@ GitHub Copilot を使って **「要件 → ユーザーストーリー → 仕�
 
 | 種別 | 内容 |
 |---|---|
+| **入口エージェント** | **`sdd-guide`**: 困りごとを 1 文入れると US → 仕様 → モック → 計画 → タスクまで会話 1 つで進む (詳細: `docs/06-quickstart-flow.md`) |
 | ドキュメント | ワークショップ題材、ファシリテーター向け進行、参加者向け事前準備、Copilot プロンプト集 |
 | ワークシート | ユーザーストーリー、仕様、実装計画、プロトタイプメモ、レビュー記録の各テンプレート |
 | プロトタイプ雛形 | Next.js (App Router, TypeScript) ベースのスターター。上面図 SVG、カメラ選択 UI、モックデータ付き |
-| カスタムスキル | VS Code Copilot Chat / GitHub Copilot CLI 共通のカスタムエージェント、スラッシュコマンド、スコープ命令 (詳細: `docs/04-custom-prompts-and-agents.md`) |
+| カスタムスキル | VS Code Copilot Chat / GitHub Copilot CLI 共通のカスタムエージェント、スラッシュコマンド、スコープ命令 (リファレンス: `docs/04-custom-prompts-and-agents.md`) |
 | 合意用モック | `mockups/` 配下の単一 HTML モックアップとサンプル |
 | BYOK バックアップ | Copilot クォータ枯渇に備えた Microsoft Foundry (Azure OpenAI) 切替手順とデプロイスクリプト (`docs/05-backup-byok.md` / `scripts/`) |
 
@@ -29,26 +30,30 @@ GitHub Copilot を使って **「要件 → ユーザーストーリー → 仕�
 │   ├── 00-overview.md         # ワークショップの全体像
 │   ├── 01-theme.md            # 題材の前提と用語
 │   ├── 02-participant-prep.md # 参加者の事前準備
-│   ├── 03-copilot-prompts.md  # 段階別 Copilot プロンプト集 (手動コピペ用)
-│   ├── 04-custom-prompts-and-agents.md  # スラッシュコマンド / カスタムエージェントの使い方
-│   └── 05-backup-byok.md      # Copilot クォータ枯渇時の BYOK 切替手順 (参加者向け)
+│   ├── 03-copilot-prompts.md  # 段階別プロンプト原文 (リファレンス / 二次フォールバック)
+│   ├── 04-custom-prompts-and-agents.md  # スラッシュコマンド / カスタムエージェント一覧 (リファレンス)
+│   ├── 05-backup-byok.md      # Copilot クォータ枯渇時の BYOK 切替手順 (参加者向け)
+│   └── 06-quickstart-flow.md  # まずここから: sdd-guide で 1 文から仕様まで
 ├── facilitator/               # 主催者・進行担当のみが見るフォルダ
 │   ├── README.md              # 取扱方針
 │   ├── agenda.md              # 180分タイムテーブル / 進行台本
 │   ├── byok-setup.md          # BYOK バックアップ運用ガイド (主催者向け)
+│   ├── opening-slide.html     # オープニング 0:00-0:10 の 1 枚スライド
 │   └── running-online.md      # オンライン / ハイブリッド運営の注意
-├── exercises/                 # 配布用ワークシート
+├── exercises/                 # 配布用ワークシート (sdd-guide はここに書き出す)
 │   ├── 01-user-stories.md
 │   ├── 02-spec.md
 │   ├── 03-implementation-plan.md
 │   ├── 04-prototype.md
 │   └── 05-review.md
-├── mockups/                   # ビジネス合意用の単一 HTML モックアップ
+├── mockups/                   # ビジネス合意用の単一 HTML モックアップ (sdd-guide はここに書き出す)
 │   ├── README.md
 │   └── example-camera-intent.html
-├── scripts/                   # 主催者向け運用スクリプト (Azure OpenAI デプロイ / 撤収)
+├── scripts/                   # 主催者向け運用スクリプト (Azure OpenAI デプロイ / 撤収 / ロール付与)
 │   ├── README.md
 │   ├── deploy-foundry-openai.sh
+│   ├── grant-workshop-access.sh
+│   ├── revoke-workshop-access.sh
 │   └── teardown-foundry-openai.sh
 ├── prototype/                 # Next.js プロトタイプ雛形
 │   ├── README.md
@@ -56,7 +61,7 @@ GitHub Copilot を使って **「要件 → ユーザーストーリー → 仕�
 └── .github/
     ├── copilot-instructions.md          # Copilot 共通規約
     ├── prompts/sdd-*.prompt.md          # VS Code Copilot Chat 用スラッシュコマンド
-    ├── agents/*.agent.md                # カスタムエージェント (VS Code 用ロール / Copilot CLI 用マルチステップ)
+    ├── agents/*.agent.md                # カスタムエージェント (sdd-guide / spec-author / business-reviewer / prototype-builder + CLI 多段)
     └── instructions/*.instructions.md   # 編集対象パスに応じて自動適用される追加指示
 ```
 
@@ -79,8 +84,17 @@ GitHub Copilot を使って **「要件 → ユーザーストーリー → 仕�
 
 ## クイックスタート
 
+**まずここから**: VS Code でこのリポジトリを開き、Copilot Chat を起動して、エージェントピッカーで **`sdd-guide`** を選択。チャットに「現場の困りごと」を 1 文書いてください。
+
+```
+カメラの設置設計が現場で大変。
+```
+
+US → 仕様 → モック → 計画 → タスクまで、エージェントが各ステップで承認を取りながら順に進めます。詳細は [`docs/06-quickstart-flow.md`](docs/06-quickstart-flow.md) を参照。
+
+プロトタイプ雛形を触ってみたいだけなら:
+
 ```bash
-# プロトタイプ雛形を起動
 cd prototype
 npm install
 npm run dev
@@ -88,7 +102,7 @@ npm run dev
 ```
 
 参加者の事前準備は [`docs/02-participant-prep.md`](docs/02-participant-prep.md) を、
-カスタムスキル一覧と使い方は [`docs/04-custom-prompts-and-agents.md`](docs/04-custom-prompts-and-agents.md) を参照してください。
+カスタムスキルの全体マップは [`docs/04-custom-prompts-and-agents.md`](docs/04-custom-prompts-and-agents.md) を参照してください。
 
 ワークショップ中に GitHub Copilot のクォータが枯渇した場合のバックアップは [`docs/05-backup-byok.md`](docs/05-backup-byok.md) (参加者向け) と [`facilitator/byok-setup.md`](facilitator/byok-setup.md) (主催者向け) にまとめてあります。
 
